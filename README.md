@@ -26,6 +26,16 @@ Kho lưu trữ tổng hợp các **Kỹ Năng Tự Động Hóa Chuyên Sâu (Ag
 
 ---
 
+### 3. 🛡️ `web-security-auditor`
+**Chuyên gia rà soát, kiểm thử và khắc phục toàn diện các lỗ hổng bảo mật cho ứng dụng Web Fullstack (Node.js/Express, SQLite, REST API, SPA) đạt chuẩn OWASP Top 10, bảo mật dữ liệu y tế (Nghị định 13/2023/NĐ-CP) và yêu cầu thẩm định an ninh mạng doanh nghiệp (Vin IT / Vingroup InfoSec).**
+- **Tính năng nổi bật**:
+  - Tự động quét và phòng thủ 105+ kịch bản tấn công: SQL Injection (Prepared Statements), Stored XSS, JWT Token Tampering, IDOR & RBAC, Path Traversal, Prototype Pollution.
+  - Tích hợp HTTP Security Headers (`helmet`), Anti-DDoS & Rate Limiting (`express-rate-limit`).
+  - Chuẩn hóa mã hóa mật khẩu Bcrypt 10 Salt Rounds, HttpOnly Secure Cookie, cô lập Secret 256-bit trong `.env`.
+  - Bộ kiểm thử an ninh tự động hóa (Automated Security Audit Suite).
+
+---
+
 ## 🛠️ Hướng Dẫn Cài Đặt & Sử Dụng
 
 ### Cách 1: Sử dụng trong từng Workspace cụ thể
