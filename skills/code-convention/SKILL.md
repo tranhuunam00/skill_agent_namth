@@ -179,7 +179,14 @@ export class MedicationPlan {
 > 2. **Kỷ luật chạy lại toàn bộ test trước mỗi lần commit (100% Full-Suite Test Pass Mandate Before Commit)**:
 >    - Trước mỗi lần commit, **BẮT BUỘC PHẢI CHẠY LẠI TOÀN BỘ TEST CỦA CẢ HỆ THỐNG** (`npm test`).
 >    - **100% các bài test phải PASSED (Exit code = 0)**. Dù chỉ có **1 test bị FAIL**, **TUYỆT ĐỐI CẤM COMMIT**.
-> 3. **Quy tắc 100% mọi hàm mới bắt buộc có test (100% Function Testing Mandate)**:
+> 3. **Kiểm thử tích hợp bắt buộc (Integration Testing Mandate)**:
+>    - Dự án bắt buộc phải có các bộ **Integration Test Suites (`*.integration.spec.ts`)**:
+>      - **Backend Integration Tests**: Kiểm thử toàn diện luồng HTTP API qua các tầng Route -> Middleware -> Service -> Database -> Response Contract với `supertest`.
+>      - **Frontend Flow Integration Tests**: Kiểm thử trọn vẹn luồng tương tác người dùng, Form validate và State 5 trạng thái (`Loading`, `Empty`, `Error`, `Data`, `Offline`).
+> 4. **Kiểm thử biên và dạng lỗi bắt buộc (Boundary & Error Cases Mandate)**:
+>    - Bắt buộc kiểm thử các giá trị biên: Số 0, số âm, ngưỡng min, ngưỡng max, chuỗi rỗng `""`, khoảng trắng, mảng rỗng `[]`, số thập phân, NaN.
+>    - Bắt buộc kiểm thử đầy đủ các nhánh lỗi và ngoại lệ: Custom errors, HTTP status codes (400, 401, 403, 404, 409, 429, 500), error message và validation details.
+> 5. **Quy tắc 100% mọi hàm mới bắt buộc có test (100% Function Testing Mandate)**:
 >    - Bất kỳ một hàm mới nào (Utility function, Method trong Service, Use Case, Entity method, hoặc API Handler) khi được tạo ra **BẮT BUỘC PHẢI CÓ TEST ĐI KÈM** (`*.test.ts` / `*.spec.ts`). Không chấp nhận bất kỳ mã nguồn chức năng nào được viết mà thiếu file kiểm thử tương ứng.
 
 ### 3.1. Chu trình 3 bước Red - Green - Refactor
