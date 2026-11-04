@@ -457,6 +457,82 @@ if (user.status === UserStatus.ACTIVE && score > HEALTH_STABLE_THRESHOLD) {
 
 ---
 
+### 5.3. Quy Chuẩn Giới Hạn Độ Dài Hàm, Độ Dài File & Quy Tắc Chia File (Size Limits & Decomposition)
+
+> [!IMPORTANT]
+> **TIÊU CHUẨN ĐỘ DÀI & PHÂN TÁCH FILE BẮT BUỘC (MANDATORY SIZE LIMITS)**:
+> Để duy trì khả năng đọc hiểu, bảo trì và kiểm thử tự động, toàn bộ mã nguồn phải tuân thủ nghiêm ngặt các ngưỡng định lượng sau đây:
+
+#### A. Giới Hạn Độ Dài Hàm & Tham Số (Function Constraints)
+1. **Độ dài hàm (Function Length)**:
+   - **Hàm thông thường:** Tối đa **$\le 30$ dòng code**.
+   - **Hàm thuật toán/nghiệp vụ phức tạp:** Tuyệt đối không vượt quá **$50$ dòng code**.
+   - *Hành động bắt buộc:* Nếu một hàm vượt quá 30 dòng, **BẮT BUỘC PHẢI PHÂN TÁCH** thành các private helper functions hoặc domain service methods nhỏ hơn theo nguyên tắc Single Responsibility (SRP).
+2. **Số lượng tham số (Parameter Count)**:
+   - Tối đa **$\le 3$ tham số** cho một hàm.
+   - Khi một hàm cần từ **4 tham số trở lên**, **BẮT BUỘC PHẢI ĐÓNG GÓI** thành một Parameter Object hoặc Interface DTO:
+     ```typescript
+     // ❌ TRÁNH: Quá 3 tham số rời rạc
+     function createDose(memberId: string, medId: string, time: Date, dosage: number, unit: string, note?: string) { ... }
+
+     // ✅ NÊN: Đóng gói thành Parameter Object DTO
+     interface CreateDoseParams {
+       memberId: string;
+       medicationId: string;
+       scheduledTime: Date;
+       dosage: number;
+       unit: string;
+       note?: string;
+     }
+     function createDose(params: CreateDoseParams): DoseSchedule { ... }
+     ```
+3. **Độ dài dòng code (Line Length)**:
+   - Tối đa **100 – 120 ký tự / dòng**. Không để dòng code quá dài khiến người đọc phải cuộn ngang.
+4. **Độ sâu lồng ghép (Nesting Depth)**:
+   - Tối đa **$\le 2$ cấp lồng nhau** (`if`, `for`, `while`). Luôn áp dụng Guard Clauses & Early Return để làm phẳng cấu trúc mã nguồn.
+
+#### B. Giới Hạn Độ Dài File (File Length Constraints)
+1. **File nghiệp vụ (Domain Entities, Services, Use Cases, Repositories, Controllers)**:
+   - Tối đa **$\le 200 - 300$ dòng code**.
+   - **Tuyệt đối cấm** các file "God Object" khổng lồ vượt quá **400 - 500 dòng**.
+2. **File màn hình giao diện (UI Screens & Views)**:
+   - Tối đa **$\le 200$ dòng code** JSX/TSX.
+   - Bắt buộc tách bạch:
+     - Logic và state đưa sang **Custom Hook riêng** (ví dụ: `useDailyCheckin.ts`).
+     - Giao diện chia thành các **Atoms, Molecules, Organisms** độc lập.
+3. **File Unit Test (`*.spec.ts` / `*.test.ts`)**:
+   - Tối đa **$\le 300 - 400$ dòng code**.
+   - Khi các kịch bản kiểm thử quá lớn, tách thành nhiều file test chuyên biệt:
+     - `adherence-calculator.spec.ts` (Happy path & Output)
+     - `adherence-calculator-boundary.spec.ts` (Boundary & Edge cases)
+     - `adherence-calculator-errors.spec.ts` (Error & Exception cases)
+
+#### C. Quy Tắc Chia File (File Decomposition & SRP)
+1. **Nguyên tắc "1 File / 1 Trách Nhiệm Chính" (1 Primary Export)**:
+   - Mỗi file chỉ chứa 1 Class, 1 Interface chính, hoặc 1 Component chính:
+     - 1 Domain Entity / Aggregate Root trong 1 file riêng (`patient.entity.ts`).
+     - 1 Value Object trong 1 file riêng (`blood-pressure.vo.ts`).
+     - 1 Domain Service trong 1 file riêng (`adherence-calculator.service.ts`).
+     - 1 Custom Hook trong 1 file riêng (`use-biometrics.ts`).
+     - 1 Sub-component trong 1 file riêng (`metric-row.tsx`, `biometric-card.tsx`).
+2. **Triệt tiêu Anti-Pattern "Thùng Rác" (No Junk-Drawer Files)**:
+   - **Tuyệt đối cấm** tạo các file gom nhét tổng hợp như `utils.ts`, `helpers.ts`, `common.ts` chứa hàng chục hàm không liên quan đến nhau.
+   - Các hàm tiện ích phải được phân tách thành từng module có tên rõ ràng:
+     - `date-formatter.ts` (Xử lý định dạng ngày tháng)
+     - `crypto-helper.ts` (Mã hóa, băm mật khẩu, tạo token)
+     - `phone-validator.ts` (Xác thực số điện thoại)
+3. **Tách biệt Types và Hằng Số (Separation of Types & Constants)**:
+   - Types / Interfaces dùng chung cho miền nghiệp vụ đặt trong thư mục `types/` hoặc `*.types.ts`.
+   - Hằng số hệ thống, enums, cấu hình ngưỡng đo đặt trong thư mục `constants/` hoặc `*.constants.ts`.
+const HEALTH_STABLE_THRESHOLD = 75.5;
+
+if (user.status === UserStatus.ACTIVE && score > HEALTH_STABLE_THRESHOLD) {
+  setTimeout(syncData, MILLISECONDS_PER_DAY);
+}
+```
+
+---
+
 ## 📱 6. Quy Chuẩn Dành Cho Mobile & Frontend UI
 
 ### 6.1. Bắt buộc xử lý Đủ 4 Trạng Thái Màn Hình (4 UI States)
