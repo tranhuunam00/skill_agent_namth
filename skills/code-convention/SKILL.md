@@ -170,7 +170,17 @@ export class MedicationPlan {
 
 > [!IMPORTANT]
 > **QUY TẮC BẤT DI BẤT DỊCH (MANDATORY TESTING CONTRACT):**
-> Bất kỳ một hàm mới nào (Utility function, Method trong Service, Use Case, Entity method, hoặc API Handler) khi được tạo ra **BẮT BUỘC PHẢI CÓ TEST ĐI KÈM**. Không chấp nhận bất kỳ mã nguồn chức năng nào được viết mà thiếu file kiểm thử tương ứng (`*.test.ts` / `*.spec.ts`).
+> 1. **Quy tắc viết TDD từng hàm một (One-Function-At-A-Time TDD Workflow)**:
+>    - Bắt buộc phải thực hiện theo chu trình nguyên tử cho **TỪNG FUNCTION MỘT**:
+>      - Viết Unit Test cho hàm đó trước (Red phase).
+>      - Viết mã cài đặt tối thiểu cho riêng hàm đó (Green phase).
+>      - Kiểm thử đủ 4 chiều (Input, Output, Error, Logic) và refactor.
+>      - **Chỉ khi hàm này hoàn thành 100% test mới chuyển sang viết hàm tiếp theo**. Tuyệt đối cấm viết ồ ạt nhiều hàm rồi mới quay lại viết test đối phó.
+> 2. **Kỷ luật chạy lại toàn bộ test trước mỗi lần commit (100% Full-Suite Test Pass Mandate Before Commit)**:
+>    - Trước mỗi lần commit, **BẮT BUỘC PHẢI CHẠY LẠI TOÀN BỘ TEST CỦA CẢ HỆ THỐNG** (`npm test`).
+>    - **100% các bài test phải PASSED (Exit code = 0)**. Dù chỉ có **1 test bị FAIL**, **TUYỆT ĐỐI CẤM COMMIT**.
+> 3. **Quy tắc 100% mọi hàm mới bắt buộc có test (100% Function Testing Mandate)**:
+>    - Bất kỳ một hàm mới nào (Utility function, Method trong Service, Use Case, Entity method, hoặc API Handler) khi được tạo ra **BẮT BUỘC PHẢI CÓ TEST ĐI KÈM** (`*.test.ts` / `*.spec.ts`). Không chấp nhận bất kỳ mã nguồn chức năng nào được viết mà thiếu file kiểm thử tương ứng.
 
 ### 3.1. Chu trình 3 bước Red - Green - Refactor
 1. 🔴 **Red (Viết test trước)**: Viết unit test mô tả hành vi mong đợi của hàm trước khi viết phần thân hàm. Chạy test và xác nhận test bị **Fail (Đỏ)**.
