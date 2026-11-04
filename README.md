@@ -36,6 +36,39 @@ Kho lưu trữ tổng hợp các **Kỹ Năng Tự Động Hóa Chuyên Sâu (Ag
 
 ---
 
+### 4. 📐 `code-convention`
+**Quy chuẩn mã nguồn (Code Convention & Style Guide) chuẩn doanh nghiệp kết hợp TDD & DDD.**
+- **Tính năng nổi bật**:
+  - Bắt buộc kiểm thử 100% mọi hàm mới (Function Testing Mandate) với ma trận 4D: Input, Output, Error (ném ngoại lệ, mã lỗi), và Logic.
+  - Thiết kế hướng miền (DDD): Ubiquitous Language, Value Objects bất biến (Self-Validating), Aggregate Roots, Domain Services.
+  - Hệ thống quy ước đặt tên (Naming Conventions) chặt chẽ cho biến, hàm, class, enum, DB, API routes.
+  - Clean Architecture, Guard Clauses, loại bỏ hoàn toàn Magic Numbers.
+  - Chuẩn Git Conventional Commits (`feat:`, `fix:`, `refactor:`,...) và Definition of Done (DoD).
+
+---
+
+### 5. 🎨 `fe-development`
+**Quy chuẩn phát triển Frontend & Mobile UI chuẩn doanh nghiệp: module hóa component, quản lý state chặt chẽ, đồng bộ Design Tokens và tối ưu UX tiết kiệm không gian.**
+- **Tính năng nổi bật**:
+  - Tách nhỏ component tái sử dụng cao theo Atomic Design (Atoms, Molecules, Organisms, Screens); tách Dumb UI và Smart Hooks.
+  - Quản lý state màn hình chặt chẽ theo State Machine: 5 trạng thái (`Loading`, `Empty`, `Error`, `Data`, `Offline Sync`).
+  - Đồng bộ màu sắc, typography và spacing lưới 4px qua hệ thống Design Tokens (Primary Teal `#1F7A8C`, Card bo tròn 22px).
+  - Tối ưu không gian hiển thị: Cuộn nội bộ trong khung (In-Frame Internal Scroll max 5 items), Carousel Chip filter, Modal Bottom Sheet.
+  - Trải nghiệm công thái học (Ergonomics): Touch target ≥ 44 × 44 pt, tối ưu Thumb Zone, tương phản chữ ≥ 4.5:1 (WCAG 2.1 AA).
+
+---
+
+### 6. 📋 `spec-kit`
+**Phương pháp luận Specification-Driven Development (SDD) từ GitHub cho AI Coding Agents: Code phục vụ Đặc tả, bắt buộc kiểm thử TDD, Kế hoạch kiến trúc (Plan), Thực thể CSDL (Data Model) và Danh sách tác vụ (Tasks).**
+- **Tính năng nổi bật**:
+  - Đảo chiều phát triển: Code phục vụ Đặc tả (Specifications), không code khi chưa có Spec được phê duyệt.
+  - Thiết lập Hiến pháp kỹ thuật (`constitution.md`) với các Cổng kiểm soát (Constitution Check Gates).
+  - Quản trị tài liệu dự án chuẩn hóa theo vòng đời: `spec.md` $\rightarrow$ `plan.md` $\rightarrow$ `data-model.md` $\rightarrow$ `tasks.md` $\rightarrow$ `quickstart.md`.
+  - Phân rã tác vụ theo User Stories ưu tiên (P1, P2, P3) kèm gắn cờ song song `[P]`.
+  - Liên kết chặt chẽ với quy chuẩn TDD và Clean Architecture.
+
+---
+
 ## 🛠️ Hướng Dẫn Cài Đặt & Sử Dụng
 
 ### Cách 1: Sử dụng trong từng Workspace cụ thể
