@@ -459,3 +459,25 @@ Trước khi nghiệm thu một màn hình hoặc component:
 - [ ] **Vùng chạm công thái học**: Vùng tương tác ngón tay tối thiểu **44 × 44 pt**, các nút bấm chính nằm trong Thumb Zone thuận tiện.
 - [ ] **Accessibility (Khả năng tiếp cận)**: Tương phản chữ ≥ 4.5:1, có `accessibilityLabel` cho các nút chỉ có icon hoặc biểu đồ trực quan.
 - [ ] **Trải nghiệm mượt mà**: Không re-render thừa (dùng `React.memo`, `useMemo`, `useCallback`), hình ảnh/icon có kích thước cố định tránh giật layout (layout shift).
+
+---
+
+## 📱💻 7. Nguyên Tắc Phân Tách Thiết Bị Trải Nghiệm (Device Experience Separation)
+
+> [!IMPORTANT]
+> **Quy định bất biến về định hướng thiết bị**:
+> - **Người dùng cuối (Bệnh nhân, Người nhà, Cá nhân theo dõi sức khỏe)**: BẮT BUỘC ƯU TIÊN MÀN MOBILE TUYỆT ĐỐI (Mobile-First, viewport 390×844 iPhone / 360×800 Android).
+> - **Quản trị viên & Bác sĩ / Điều dưỡng (Admin Console, Trạm giám sát y tế, Bảng điều khiển lâm sàng)**: BẮT BUỘC THIẾT KẾ TRÊN PC / DESKTOP (PC-First, viewport ≥ 1280px / 1440px / 1920px).
+
+### 7.1. Chuẩn Màn Hình Mobile-First Cho Người Dùng (End-User Experience)
+- **Tập trung vào sự tiện lợi khi di chuyển**: Thao tác bằng một tay trong vùng ngón tay cái (**Thumb Zone**), kích thước chạm tối thiểu $44 \times 44\text{ pt}$.
+- **Nhập liệu nhanh qua Bottom Sheet**: Dùng Modal Bottom Sheet (bo tròn 28px, overlay tối mờ) cho các tác vụ: đo chỉ số tức thì, kết nối thiết bị Bluetooth (BLE), chọn liều thuốc đã uống, thêm ghi chú.
+- **Micro-scrolling & Carousel**: Bảng danh sách dài (kết quả xét nghiệm, bác sĩ, đơn thuốc) chỉ hiển thị tối đa **5 mục mới nhất**, cuộn nội bộ trong khung. Dùng chip pill cuộn ngang để lọc danh mục, không dùng dropdown.
+- **Thẻ cấp cứu SOS Offline**: Thiết kế vừa vặn 1 màn hình di động không cần cuộn, gồm mã QR mã hóa ECDSA, nhóm máu to rõ và danh bạ khẩn cấp có nút bấm gọi điện ngay.
+
+### 7.2. Chuẩn Màn Hình PC-First Cho Quản Trị & Bác Sĩ (Admin & Clinical Experience)
+- **Bố cục 3 khối Desktop (Desktop Tri-Layout)**: Sidebar điều hướng phân cấp bên trái, Topbar tìm kiếm & định danh cơ sở y tế phía trên, và Content Area đa cột rộng rãi.
+- **Bảng dữ liệu mật độ cao (High-Density Data Grids)**: Hiển thị danh sách bệnh nhân, ca cấp cứu, lịch hẹn khám với tính năng lọc nâng cao đa tiêu chí, sắp xếp (multi-sort), phân trang server-side, ghim cột (sticky columns) và xuất báo cáo (Excel, PDF, FHIR).
+- **Bảng điều khiển lâm sàng đa chiều (Multi-Panel Clinical Dashboard)**: Hiển thị song song biểu đồ diễn tiến sinh trắc học dài hạn, kết quả xét nghiệm liên hoàn và trình xem phim chụp X-quang/CT/MRI (DICOM Viewer) trên cùng một màn hình lớn để bác sĩ hội chẩn.
+- **Tối ưu thao tác bàn phím (Keyboard Shortcuts)**: Phím tắt gán mã ICD-10, duyệt nhanh toa thuốc và chuyển đổi giữa các hồ sơ bệnh án không cần nhấc tay khỏi bàn phím.
+

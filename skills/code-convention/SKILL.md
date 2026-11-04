@@ -23,6 +23,20 @@ Kích hoạt skill này khi:
 
 ---
 
+## ⏱️ 0. Kỷ Luật Tái Thẩm Định Kỹ Năng & Quy Chuẩn Định Kỳ (Periodic 30-Minute Review Mandate)
+
+> [!IMPORTANT]
+> **Quy định bất biến về chu kỳ rà soát**:
+> - Cứ sau **mỗi 30 phút** làm việc liên tục hoặc trước khi bắt đầu bất kỳ một Task/Phase/Màn hình mới nào, AI Coding Agent **BẮT BUỘC PHẢI ĐỌC LẠI TOÀN BỘ 100% CÁC SKILLS VÀ RULES**:
+>   - Đọc lại `GEMINI.md` và `.specify/memory/constitution.md`.
+>   - Đọc lại toàn bộ bộ kỹ năng chuyên môn (`code-convention`, `fe-development`, `spec-kit`, `web-security-auditor`).
+> - **Mục tiêu**: Loại bỏ triệt để hiện tượng quên ngữ cảnh (Context Drift), ngăn ngừa sinh mã tùy tiện ("vibe coding"), duy trì tính nghiêm ngặt tuyệt đối của TDD 4 chiều, kiến trúc DDD, chuẩn thiết bị và an toàn dữ liệu y tế.
+> - **Cam kết hành động**: Tuyệt đối không sinh code khi chưa kiểm chứng lại sự phù hợp với toàn bộ rule và skill.
+
+---
+
+---
+
 ## 🔤 1. Quy Tắc Đặt Tên Chuẩn (Naming Conventions)
 
 | Đối tượng | Quy ước | Ví dụ hợp lệ | Tránh dùng |
@@ -220,7 +234,7 @@ Khi viết test cho một hàm, kỹ sư/agent **bắt buộc phải bao phủ �
 
 ### 3.3. Ví Dụ Mẫu Chuẩn Cho Kiểm Thử Hàm (TDD Pattern với AAA)
 
-#### Hàm cần phát triển (ví dụ tính điểm tuân thủ dùng thuốc trong 30 ngày):
+#### Hàm cần phát triển:
 ```typescript
 // src/domain/services/adherence-calculator.ts
 export interface DoseStats {
@@ -242,7 +256,6 @@ export class AdherenceCalculator {
 
     const { taken, missed, skipped } = stats;
 
-    // Kiểm tra tính hợp lệ của input
     [taken, missed, skipped].forEach((val, idx) => {
       const fieldNames = ["taken", "missed", "skipped"];
       if (typeof val !== "number" || isNaN(val) || !Number.isInteger(val)) {
@@ -275,13 +288,8 @@ describe("AdherenceCalculator.calculate30dAdherence", () => {
   // =========================================================================
   describe("Happy Path & Output Accuracy", () => {
     it("nên trả về 100 khi uống đủ 100% các liều (không bỏ lỡ hay bỏ qua)", () => {
-      // Arrange (Chuẩn bị)
       const stats: DoseStats = { taken: 20, missed: 0, skipped: 0 };
-      
-      // Act (Thực thi)
       const result = AdherenceCalculator.calculate30dAdherence(stats);
-      
-      // Assert (Xác nhận)
       expect(result).toBe(100);
     });
 
